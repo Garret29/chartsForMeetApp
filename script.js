@@ -27,46 +27,54 @@ app.controller('controller', function ($scope) {
             $scope.generateCharts();
         });
     };
-    $scope.prepare = async ()=>{
+    $scope.prepare = async () => {
         $scope.groupsMessageCount = [];
         $scope.groupNames = [];
         $scope.groupEventCount = [];
         $scope.groupMembersCount = [];
         $scope.names = [];
         $scope.groupsCount = [];
-        await Object.values($scope.users).forEach((user) => {
-            $scope.names.push(user.name);
-            if (user.groups !== undefined && user.groups !== null) {
-                $scope.groupsCount.push(Object.keys(user.groups).length)
-            } else {
-                $scope.groupsCount.push(0)
-            }
-        });
 
-        await Object.values($scope.groups).forEach((group)=>{
-            $scope.groupNames.push(group.name);
-            if (group.members !== undefined && group.members !== null){
-                $scope.groupMembersCount.push(Object.keys(group.members).length)
-            } else {
-                $scope.groupMembersCount.push(0)
-            }
+        console.log($scope.users);
+        console.log($scope.groups);
 
-            if(group.events !== undefined && group.events !== null){
-                $scope.groupEventCount.push(Object.keys(group.events).length);
-            } else {
-                $scope.groupEventCount.push(0);
-            }
+        if ($scope.users !== null) {
+            await Object.values($scope.users).forEach((user) => {
+                $scope.names.push(user.name);
+                if (user.groups !== undefined && user.groups !== null) {
+                    $scope.groupsCount.push(Object.keys(user.groups).length)
+                } else {
+                    $scope.groupsCount.push(0)
+                }
+            });
+        }
 
-            if(group.chat !== undefined && group.chat !== null ){
-                $scope.groupsMessageCount.push(Object.keys(group.chat).length);
-            } else {
-                $scope.groupsMessageCount.push(0);
-            }
-        })
+        if ($scope.groups !== null) {
+            await Object.values($scope.groups).forEach((group) => {
+                $scope.groupNames.push(group.name);
+                if (group.members !== undefined && group.members !== null) {
+                    $scope.groupMembersCount.push(Object.keys(group.members).length)
+                } else {
+                    $scope.groupMembersCount.push(0)
+                }
+
+                if (group.events !== undefined && group.events !== null) {
+                    $scope.groupEventCount.push(Object.keys(group.events).length);
+                } else {
+                    $scope.groupEventCount.push(0);
+                }
+
+                if (group.chat !== undefined && group.chat !== null) {
+                    $scope.groupsMessageCount.push(Object.keys(group.chat).length);
+                } else {
+                    $scope.groupsMessageCount.push(0);
+                }
+            })
+        }
     };
 
     $scope.generateCharts = async () => {
-        $scope.prepare().then( async ()=>{
+        $scope.prepare().then(async () => {
             // let canvas = document.getElementById("firstChart");
             // let ctx = canvas.getContext('2d');
             // ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -83,30 +91,30 @@ app.controller('controller', function ($scope) {
             // ctx = canvas.getContext('2d');
             // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if(firstChart!==undefined){
+            if (firstChart !== undefined) {
                 firstChart.destroy();
             }
 
-            if(secondChart!==undefined){
+            if (secondChart !== undefined) {
                 secondChart.destroy();
             }
 
-            if(thirdChart!==undefined){
+            if (thirdChart !== undefined) {
                 thirdChart.destroy();
             }
 
-            if(fourthChart!==undefined){
+            if (fourthChart !== undefined) {
                 fourthChart.destroy();
             }
 
             let userColors = [];
             let groupColors = [];
 
-            $scope.names.forEach(()=>{
-               userColors.push(randomColor())
+            $scope.names.forEach(() => {
+                userColors.push(randomColor())
             });
 
-            $scope.groupNames.forEach(()=>{
+            $scope.groupNames.forEach(() => {
                 groupColors.push(randomColor())
             });
 
